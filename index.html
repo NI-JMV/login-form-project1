@@ -1,23 +1,246 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login </title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Login Form</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+}
+
+.container{
+    width:400px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.2);
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.5);
+}
+
+.container h1{
+    color:white;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.input-box{
+    position:relative;
+    margin-bottom:25px;
+}
+
+.input-box input{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    border-radius:10px;
+    font-size:16px;
+    background:rgba(255,255,255,.2);
+    color:white;
+}
+
+.input-box input::placeholder{
+    color:#ddd;
+}
+
+.toggle{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:white;
+    font-size:14px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#00c6ff;
+    background:linear-gradient(to right,#0072ff,#00c6ff);
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    margin-top:15px;
+    color:white;
+    font-size:14px;
+}
+
+.options a{
+    color:#00eaff;
+    text-decoration:none;
+}
+
+.error{
+    color:#ff5c5c;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.success{
+    color:#7CFC00;
+    font-size:16px;
+    text-align:center;
+    margin-top:15px;
+}
+</style>
+
 </head>
 <body>
 
-<div class="login-box">
-    <h2>Login Form</h2>
+<div class="container">
 
-    <form>
-        <input type="text" placeholder="Username" required>
-        <input type="password" placeholder="Password" required>
-         <input type="email" placeholder="email" required>
-        
+<h1>Login</h1>
 
-        <button type="submit">Login</button>
-    </form>
+<form id="loginForm">
+
+<div class="error" id="error"></div>
+
+<div class="input-box">
+<input
+type="email"
+id="email"
+placeholder="Enter Email"
+required>
 </div>
+
+<div class="input-box">
+<input
+type="password"
+id="password"
+placeholder="Enter Password"
+required>
+
+<span class="toggle" onclick="togglePassword()">
+Show
+</span>
+
+</div>
+
+<button type="submit">
+Login
+</button>
+
+<div class="options">
+<label>
+<input type="checkbox">
+Remember Me
+</label>
+
+<a href="#">
+Forgot Password?
+</a>
+</div>
+
+<div class="success" id="success"></div>
+
+</form>
+
+</div>
+
+<script>
+
+const form=document.getElementById("loginForm");
+const error=document.getElementById("error");
+const success=document.getElementById("success");
+
+form.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+error.innerHTML="";
+success.innerHTML="";
+
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+
+const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(email==""){
+error.innerHTML="Please enter your email.";
+return;
+}
+
+if(!emailPattern.test(email)){
+error.innerHTML="Please enter a valid email address.";
+return;
+}
+
+if(password==""){
+error.innerHTML="Please enter your password.";
+return;
+}
+
+if(password.length<8){
+error.innerHTML="Password must contain at least 8 characters.";
+return;
+}
+
+/* Example credentials */
+
+const savedEmail="admin@gmail.com";
+const savedPassword="Admin123";
+
+if(email===savedEmail && password===savedPassword){
+
+success.innerHTML="Login Successful!";
+
+setTimeout(function(){
+window.location.href="home.html";
+},1500);
+
+}
+else{
+
+error.innerHTML="Invalid email or password.";
+
+}
+
+});
+
+function togglePassword(){
+
+const password=document.getElementById("password");
+const toggle=document.querySelector(".toggle");
+
+if(password.type==="password"){
+password.type="text";
+toggle.innerHTML="Hide";
+}
+else{
+password.type="password";
+toggle.innerHTML="Show";
+}
+
+}
+
+</script>
 
 </body>
 </html>
