@@ -1,241 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modern Login Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login Form</title>
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-}
-
-.container{
-    width:400px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(15px);
-    border:1px solid rgba(255,255,255,.2);
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 15px 35px rgba(0,0,0,.5);
-}
-
-.container h1{
-    color:white;
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.input-box{
-    position:relative;
-    margin-bottom:25px;
-}
-
-.input-box input{
-    width:100%;
-    padding:15px;
-    border:none;
-    outline:none;
-    border-radius:10px;
-    font-size:16px;
-    background:rgba(255,255,255,.2);
-    color:white;
-}
-
-.input-box input::placeholder{
-    color:#ddd;
-}
-
-.toggle{
-    position:absolute;
-    right:15px;
-    top:50%;
-    transform:translateY(-50%);
-    cursor:pointer;
-    color:white;
-    font-size:14px;
-}
-
-button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:10px;
-    background:#00c6ff;
-    background:linear-gradient(to right,#0072ff,#00c6ff);
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-button:hover{
-    transform:scale(1.03);
-}
-
-.options{
-    display:flex;
-    justify-content:space-between;
-    margin-top:15px;
-    color:white;
-    font-size:14px;
-}
-
-.options a{
-    color:#00eaff;
-    text-decoration:none;
-}
-
-.error{
-    color:#ff5c5c;
-    font-size:14px;
-    margin-bottom:10px;
-}
-
-.success{
-    color:#7CFC00;
-    font-size:16px;
-    text-align:center;
-    margin-top:15px;
-}
-</style>
-
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="login-container">
 
-<h1>Login</h1>
+    <div class="login-box">
 
-<form id="loginForm">
+        <h1>Welcome Back</h1>
+        <p>Please login to continue</p>
 
-<div class="error" id="error"></div>
+        <form id="loginForm">
 
-<div class="input-box">
-<input
-type="email"
-id="email"
-placeholder="Enter Email"
-required>
-</div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter your email">
+            </div>
 
-<div class="input-box">
-<input
-type="password"
-id="password"
-placeholder="Enter Password"
-required>
+            <div class="input-group">
+                <label>Password</label>
 
-<span class="toggle" onclick="togglePassword()">
-Show
-</span>
+                <div class="password-box">
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <span id="togglePassword">👁️</span>
+                </div>
 
-</div>
+            </div>
 
-<button type="submit">
-Login
-</button>
+            <div class="options">
+                <label>
+                    <input type="checkbox">
+                    Remember Me
+                </label>
 
-<div class="options">
-<label>
-<input type="checkbox">
-Remember Me
-</label>
+                <a href="#">Forgot Password?</a>
+            </div>
 
-<a href="#">
-Forgot Password?
-</a>
-</div>
+            <button type="submit">
+                Login
+            </button>
 
-<div class="success" id="success"></div>
+            <div id="message"></div>
 
-</form>
+        </form>
+
+    </div>
 
 </div>
 
 <script>
 
 const form=document.getElementById("loginForm");
-const error=document.getElementById("error");
-const success=document.getElementById("success");
+const message=document.getElementById("message");
 
 form.addEventListener("submit",function(e){
 
 e.preventDefault();
 
-error.innerHTML="";
-success.innerHTML="";
-
 const email=document.getElementById("email").value.trim();
 const password=document.getElementById("password").value;
+
+message.innerHTML="";
+message.style.color="red";
 
 const emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 if(email==""){
-error.innerHTML="Please enter your email.";
+message.innerHTML="Please enter your email.";
 return;
 }
 
 if(!emailPattern.test(email)){
-error.innerHTML="Please enter a valid email address.";
+message.innerHTML="Enter a valid email address.";
 return;
 }
 
 if(password==""){
-error.innerHTML="Please enter your password.";
+message.innerHTML="Please enter your password.";
 return;
 }
 
 if(password.length<8){
-error.innerHTML="Password must contain at least 8 characters.";
+message.innerHTML="Password must be at least 8 characters.";
 return;
 }
 
-/* Example credentials */
+/* Demo Login */
 
-const savedEmail="admin@gmail.com";
-const savedPassword="Admin123";
+const userEmail="admin@gmail.com";
+const userPassword="Admin123";
 
-if(email===savedEmail && password===savedPassword){
+if(email===userEmail && password===userPassword){
 
-success.innerHTML="Login Successful!";
+message.style.color="lime";
+message.innerHTML="Login Successful!";
 
 setTimeout(function(){
+
 window.location.href="home.html";
+
 },1500);
 
 }
 else{
 
-error.innerHTML="Invalid email or password.";
+message.innerHTML="Incorrect email or password.";
 
 }
 
 });
 
-function togglePassword(){
 
-const password=document.getElementById("password");
-const toggle=document.querySelector(".toggle");
+const toggle=document.getElementById("togglePassword");
 
-if(password.type==="password"){
-password.type="text";
-toggle.innerHTML="Hide";
+toggle.onclick=function(){
+
+const pass=document.getElementById("password");
+
+if(pass.type==="password"){
+
+pass.type="text";
+toggle.innerHTML="🙈";
+
 }
 else{
-password.type="password";
-toggle.innerHTML="Show";
+
+pass.type="password";
+toggle.innerHTML="👁️";
+
 }
 
 }
